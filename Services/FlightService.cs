@@ -1,4 +1,6 @@
 ﻿// FlightService.cs
+using FlightBookingSystem.DTO;
+using FlightBookingSystem.DTO.FlightBookingSystem.DTO;
 using FlightBookingSystem.Model;
 using FlightBookingSystem.Repositories;
 using FlightBookingSystem.Services.FlightBookingSystem.Services;
@@ -44,5 +46,11 @@ namespace FlightBookingSystem.Services
             await _unitOfWork.Flights.DeleteFlightAsync(id);
             await _unitOfWork.CompleteAsync();
         }
+
+        public async Task<IEnumerable<Flight>> SearchFlightsAsync(FlightSearchDto searchDto)
+        {
+            return await _unitOfWork.Flights.SearchFlightsAsync(searchDto);
+        }
+
     }
 }

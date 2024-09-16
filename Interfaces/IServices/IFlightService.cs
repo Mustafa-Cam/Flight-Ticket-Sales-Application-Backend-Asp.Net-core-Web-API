@@ -1,6 +1,7 @@
 ﻿namespace FlightBookingSystem.Services
 {
-
+    using global::FlightBookingSystem.DTO;
+    using global::FlightBookingSystem.DTO.FlightBookingSystem.DTO;
     using global::FlightBookingSystem.Model;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -14,6 +15,9 @@
             Task AddFlightAsync(Flight flight);
             Task UpdateFlightAsync(Flight flight);
             Task DeleteFlightAsync(int id);
+
+            Task<IEnumerable<Flight>> SearchFlightsAsync(FlightSearchDto searchDto);
+
         }
     }
 }

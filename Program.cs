@@ -12,7 +12,23 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using FlightBookingSystem.Interfaces.IServices;
 using FlightBookingSystem.Interfaces.IRepositories;
 
+
+
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+// CORS ayarý ekliyoruz
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // Add services to the container.
 builder.Services.AddControllers(options =>
@@ -98,6 +114,13 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var app = builder.Build();
+
+
+// we add CORS middleware 
+app.UseCors("AllowAll");
+
+// Routing and other middlewares
+app.UseHttpsRedirection();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

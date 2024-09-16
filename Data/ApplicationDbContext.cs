@@ -1,4 +1,5 @@
-﻿using FlightBookingSystem.Model;
+﻿using FlightBookingSystem.DTO;
+using FlightBookingSystem.Model;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -12,6 +13,7 @@ namespace FlightBookingSystem.Data
 
         // Tabloları tanımla
         public DbSet<Flight> Flights { get; set; }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Ticket> Tickets { get; set; }

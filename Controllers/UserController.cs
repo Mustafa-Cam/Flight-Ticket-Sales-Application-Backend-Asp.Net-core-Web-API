@@ -14,11 +14,13 @@ namespace FlightBookingSystem.Controllers
     {
         private readonly IUserService _userService;
         private readonly JwtService _jwtService;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserService userService, JwtService jwtService)
+        public UserController(IUserService userService, JwtService jwtService, ILogger<UserController> logger)
         {
             _userService = userService;
             _jwtService = jwtService;
+            _logger = logger;
         }
 
         // POST: api/user/login
@@ -33,6 +35,9 @@ namespace FlightBookingSystem.Controllers
                 return Unauthorized("Invalid credentials.");
             }
 
+            //_logger.LogInformation("User {Email} logged in successfully", loginDto.Email);
+
+            Console.WriteLine("role",user.Role.ToString());    
             // Token üretme
             var token = _jwtService.GenerateToken(user.Id.ToString(), user.Role.ToString());
             return Ok(new { Token = token });
@@ -44,16 +49,30 @@ namespace FlightBookingSystem.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) // açıkça bodyden aldığımızı söylüyoruz birden fazla veri kaynağından parametre almamız gerekirse belirtmemiz daha iyidir. Ama Birden fazla veri kaynağı yoksa [FromBody] yazmasan da Asp.Net kendi anlıyor zaten. Dediğim gibi birden fazla parametre kullanacaksan nereden alacağını (body mi, query mi) belirtmen daha iyi olacaktır.
         {
-            var user = new User
+            try
             {
-                Name = registerDto.Username,
-                Email = registerDto.Email,
-                Password = registerDto.Password,  // Şifreleme eklenebilir
-                Role = "Client"
-            };
+                var existingUser = await _userService.GetUserByEmailAsync(registerDto.Email);
+                if (existingUser != null)
+                {
+                    // Eğer email zaten kayıtlıysa uygun bir hata döndürüyoruz
+                    return BadRequest(new { message = "Email already in use." });
+                }
 
-            await _userService.AddUserAsync(user);
-            return Ok("User registered successfully.");
+                var user = new User
+                {
+                    Name = registerDto.Username,
+                    Email = registerDto.Email,
+                    Password = registerDto.Password,  // Şifreleme eklenebilir
+                    Role = "Client"
+                };
+
+                await _userService.AddUserAsync(user);
+                return Ok(new { message = "User registered successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
