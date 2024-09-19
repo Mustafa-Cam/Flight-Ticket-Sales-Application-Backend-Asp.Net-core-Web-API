@@ -7,12 +7,10 @@ namespace FlightBookingSystem.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){}
 
         // Tabloları tanımla
-        public DbSet<Flight> Flights { get; set; }
+        public DbSet<Flight> Flights { get; set; } // DbSet tabloları temsil eder bunları tanımlamazsanız veritabanı ile işlem yapamazsın.
 
         public DbSet<User> Users { get; set; }
 

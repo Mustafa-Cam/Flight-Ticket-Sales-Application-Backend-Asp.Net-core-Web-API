@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingSystem.Repositories
 {
-    public class TicketRepository : ITicketRepository
+    public class TicketRepository : Repository<Ticket>,ITicketRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public TicketRepository(ApplicationDbContext context)
+        public TicketRepository(ApplicationDbContext context) : base(context) 
         {
             _context = context;
         }

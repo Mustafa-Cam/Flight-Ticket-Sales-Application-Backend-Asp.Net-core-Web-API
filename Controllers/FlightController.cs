@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace FlightBookingSystem.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // bu kullanım controller ismi ile değiştirilir mesela Sınıf adı UserController olsaydı api/user olacaktı. Burda ise api/flight.
     public class FlightController : ControllerBase
     {
         private readonly IFlightService _flightService;

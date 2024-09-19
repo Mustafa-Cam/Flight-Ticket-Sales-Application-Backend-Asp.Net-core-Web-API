@@ -8,46 +8,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingSystem.Repositories
 {
-    public class FlightRepository : IFlightRepository
+    public class FlightRepository : Repository<Flight>, IFlightRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public FlightRepository(ApplicationDbContext context)
+        public FlightRepository(ApplicationDbContext context) : base(context) 
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Flight>> GetAllFlightsAsync()
-        {
-            return await _context.Flights.ToListAsync();
-        }
+        //Repository pattern olmadan
+        //public async Task<IEnumerable<Flight>> GetAllAsync()
+        //{
+        //    return await _context.Flights.ToListAsync();
+        //}
 
-        public async Task<Flight> GetFlightByIdAsync(int id)
-        {
-            return await _context.Flights.FindAsync(id);
-        }
+        //public async Task<Flight> GetByIdAsync(int id)
+        //{
+        //    return await _context.Flights.FindAsync(id);
+        //}
 
-        public async Task AddFlightAsync(Flight flight)
-        {
-            await _context.Flights.AddAsync(flight);
-            await _context.SaveChangesAsync();
-        }
+        //public async Task AddAsync(Flight flight)
+        //{
+        //    await _context.Flights.AddAsync(flight);
+        //    await _context.SaveChangesAsync();
+        //}
 
-        public async Task UpdateFlightAsync(Flight flight)
-        {
-            _context.Flights.Update(flight);
-            await _context.SaveChangesAsync();
-        }
+        //public async Task UpdateAsync(Flight flight)
+        //{
+        //    _context.Flights.Update(flight);
+        //    await _context.SaveChangesAsync();
+        //}
 
-        public async Task DeleteFlightAsync(int id)
-        {
-            var flight = await _context.Flights.FindAsync(id);
-            if (flight != null)
-            {
-                _context.Flights.Remove(flight);
-                await _context.SaveChangesAsync();
-            }
-        }
+        //public async Task DeleteAsync(int id)
+        //{
+        //    var flight = await _context.Flights.FindAsync(id);
+        //    if (flight != null)
+        //    {
+        //        _context.Flights.Remove(flight);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
 
         public async Task<IEnumerable<Flight>> SearchFlightsAsync(FlightSearchDto searchDto)
         {

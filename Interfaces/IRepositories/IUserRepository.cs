@@ -3,12 +3,8 @@ using System.Threading.Tasks;
 
 namespace FlightBookingSystem.Interfaces.IRepositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
-        Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByEmailAsync(string email);
-        Task AddUserAsync(User user);
-        Task UpdateUserAsync(User user);
-        Task DeleteUserAsync(int id);
     }
 }

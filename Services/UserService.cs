@@ -17,7 +17,7 @@ namespace FlightBookingSystem.Services
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _unitOfWork.Users.GetUserByIdAsync(id);
+            return await _unitOfWork.Users.GetByIdAsync(id);
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
@@ -27,19 +27,19 @@ namespace FlightBookingSystem.Services
 
         public async Task AddUserAsync(User user)
         {
-            await _unitOfWork.Users.AddUserAsync(user);
+            await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task UpdateUserAsync(User user)
         {
-            await _unitOfWork.Users.UpdateUserAsync(user);
+            await _unitOfWork.Users.UpdateAsync(user);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task DeleteUserAsync(int id)
         {
-            await _unitOfWork.Users.DeleteUserAsync(id);
+            await _unitOfWork.Users.DeleteAsync(id);
             await _unitOfWork.CompleteAsync();
         }
     }

@@ -21,29 +21,29 @@ namespace FlightBookingSystem.Services
 
         public async Task<IEnumerable<Flight>> GetFlightsAsync()
         {
-            return await _unitOfWork.Flights.GetAllFlightsAsync();
+            return await _unitOfWork.Flights.GetAllAsync();
         }
 
         public async Task<Flight> GetFlightByIdAsync(int id)
         {
-            return await _unitOfWork.Flights.GetFlightByIdAsync(id);
+            return await _unitOfWork.Flights.GetByIdAsync(id);
         }
 
         public async Task AddFlightAsync(Flight flight)
         {
-            await _unitOfWork.Flights.AddFlightAsync(flight);
+            await _unitOfWork.Flights.AddAsync(flight);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task UpdateFlightAsync(Flight flight)
         {
-            await _unitOfWork.Flights.UpdateFlightAsync(flight);
+            await _unitOfWork.Flights.UpdateAsync(flight);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task DeleteFlightAsync(int id)
         {
-            await _unitOfWork.Flights.DeleteFlightAsync(id);
+            await _unitOfWork.Flights.DeleteAsync(id);
             await _unitOfWork.CompleteAsync();
         }
 

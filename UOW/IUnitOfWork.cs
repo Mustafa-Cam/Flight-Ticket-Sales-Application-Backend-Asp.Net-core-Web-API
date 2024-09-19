@@ -4,12 +4,11 @@ using System.Threading.Tasks;
 
 namespace FlightBookingSystem.UOW
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         IFlightRepository Flights { get; }
         IUserRepository Users { get; }
-
         ITicketRepository Tickets { get; }
         Task<int> CompleteAsync();
     }
-}
+}   

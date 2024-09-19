@@ -8,21 +8,19 @@ namespace FlightBookingSystem.Services
 {
     public class TicketService : ITicketService
     {
-        private readonly ITicketRepository _ticketRepository;
-        private readonly IFlightRepository _flightRepository;
+       
         private readonly IUnitOfWork _unitOfWork;
 
-        public TicketService(ITicketRepository ticketRepository, IFlightRepository flightRepository, IUnitOfWork unitOfWork)
+        public TicketService( IUnitOfWork unitOfWork)
         {
-            _ticketRepository = ticketRepository;
-            _flightRepository = flightRepository;
+            
             _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> PurchaseTicketAsync(TicketDto ticketDto)
         {
             // Flight'ı bul ve kapasiteyi kontrol et
-            var flight = await _flightRepository.GetFlightByIdAsync(ticketDto.FlightId);
+            var flight = await _unitOfWork.Flights.GetByIdAsync(ticketDto.FlightId);
             if (flight == null || flight.Capacity <= 0)
             {
                 return false; // Uçuş yok ya da kapasite dolu
@@ -37,7 +35,7 @@ namespace FlightBookingSystem.Services
             };
 
             // Bileti kaydet ve kapasiteyi azalt
-            await _ticketRepository.AddTicketAsync(ticket);
+            await _unitOfWork.Tickets.AddTicketAsync(ticket);
             flight.Capacity--; // Uçuş kapasitesini düşür
             await _unitOfWork.CompleteAsync(); // Tüm değişiklikleri kaydet
 
@@ -46,7 +44,7 @@ namespace FlightBookingSystem.Services
 
         public async Task<IEnumerable<Ticket>> GetTicketsByUserIdAsync(int userId)
         {
-            return await _ticketRepository.GetTicketsByUserIdAsync(userId);
+            return await _unitOfWork.Tickets.GetTicketsByUserIdAsync(userId);
         }
     }
 
